@@ -70,6 +70,37 @@ WebSocket 快速上手（更多用法请参考官方文档）
         client.run(appid='botid', secret='secert')
     ```
 
+更改日志存储位置
+--------
+-  将日志存放到当前路径下的logs目录中，确保代码添加在main.py主程序顶部
+    ``` python
+    import os
+    from ymbotpy.logging import configure_logging, DEFAULT_FILE_HANDLER
+    # 创建自定义handler配置，指定文件夹路径
+    custom_handler = DEFAULT_FILE_HANDLER.copy()
+    # 确保logs目录存在
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
+    custom_handler["filename"] = os.path.join("logs", "%(name)s.log")
+    
+    # 配置日志
+    configure_logging(ext_handlers=custom_handler)
+
+    # 其他代码
+    import ymbotpy
+    from ymbotpy.message import Message
+
+    class MyClient(ymbotpy.WebHookClient):
+        async def on_at_message_create(self, message: Message):
+            """频道内@"""
+            await message.reply(content=f"机器人{self.robot.name}收到你的@消息了: {message.content}")
+
+    if __name__ == "__main__":
+        client = MyClient()
+        client.run(appid='botid',secret='secert',port=8080,system_log=True)
+    
+    ```
+
 文档
 ----
 
