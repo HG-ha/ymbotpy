@@ -206,6 +206,10 @@ class ConnectionState:
         _message = GroupMessage(self.api, payload.get("id", None), payload.get("d", {}))
         self._dispatch("group_at_message_create", _message)
 
+    def parse_group_message_create(self, payload):
+        _message = GroupMessage(self.api, payload.get("id", None), payload.get("d", {}))
+        self._dispatch("group_message_create", _message)
+
     def parse_c2c_message_create(self, payload):
         _message = C2CMessage(self.api, payload.get("id", None), payload.get("d", {}))
         self._dispatch("c2c_message_create", _message)
