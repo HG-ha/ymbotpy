@@ -21,6 +21,24 @@ class GroupManageEvent:
     def __repr__(self):
         return str({items: str(getattr(self, items)) for items in self.__slots__ if not items.startswith("_")})
 
+class GroupMemberEvent:
+    __slots__ = (
+        "_api",
+        "event_id",
+        "timestamp",
+        "group_openid",
+        "member_openid",
+    )
+
+    def __init__(self, api: BotAPI, event_id, data: Dict):
+        self._api = api
+        self.event_id = event_id
+        self.timestamp = data.get("timestamp", None)
+        self.group_openid = data.get("group_openid", None)
+        self.member_openid = data.get("member_openid", None)
+
+    def __repr__(self):
+        return str({items: str(getattr(self, items)) for items in self.__slots__ if not items.startswith("_")})
 
 class C2CManageEvent:
     __slots__ = (
